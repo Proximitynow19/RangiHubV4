@@ -60,7 +60,11 @@ app.get("/", async (_, res) => {
   const author = heroBackground.user.name;
   const authorUrl = heroBackground.user.links.html;
 
-  res.render(join(__dirname, "../views/index.ejs"));
+  res.render(join(__dirname, "../views/index.ejs"), {
+    image,
+    author,
+    authorUrl,
+  });
 });
 
 import { Server, Socket } from "socket.io";
