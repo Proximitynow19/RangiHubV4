@@ -10,21 +10,21 @@
     <script type="module" src="https://unpkg.com/blurhash-img?module"></script>
   </head>
   <body>
-    <blurhash-img hash="<%- blurHash %>"> </blurhash-img>
-    <header style="background-image: url(<%- image %>)">
-      <p class="attribution">
+    <blurhash-img hash="<%- blurHash %>"></blurhash-img>
+    <header style="background-image: url(<%- image %>)" class="box-shadow">
+      <p class="attribution text-shadow">
         Photo by <a href="<%- authorUrl %>" target="_blank"><%- author %></a> on
         <a href="https://unsplash.com/" target="_blank">Unsplash</a>
       </p>
       <nav>
         <div>
-          <img src="" alt="Logo" />
+          <img src="" alt="Logo" class="box-shadow" />
         </div>
         <div>
-          <a href="#">Open App</a>
+          <a href="/app" class="text-shadow box-shadow">Open App</a>
         </div>
       </nav>
-      <h1>RangiHub</h1>
+      <h1 class="text-shadow">RangiHub</h1>
     </header>
 
     <script

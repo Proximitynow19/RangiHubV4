@@ -8,6 +8,7 @@ import { nanoid } from "nanoid";
 import localStrategy from "./strategies/local";
 import { join } from "path";
 import fetch from "node-fetch";
+import { unsplashFallback } from "./config.json";
 
 config();
 
@@ -16,6 +17,7 @@ console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 const app = express();
 
 app.set("view engine", "ejs");
+app.set("views", join(__dirname, "../views"));
 
 declare module "http" {
   interface IncomingMessage {
@@ -43,30 +45,47 @@ passport.use("LocalStrategy", localStrategy);
 app.use("/public", express.static(join(__dirname, "../public")));
 app.use("/auth", require("./routes/auth"));
 
+async function getUnsplashBackground() {
+  try {
+    const background = await (
+      await fetch(
+        "https://api.unsplash.com/photos/random?query=new%20zealand&orientation=landscape",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Authorization: Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
+          },
+        }
+      )
+    ).json();
+
+    return {
+      image: background.urls.raw,
+      author: background.user.name,
+      authorUrl: background.user.links.html,
+      blurHash: background.blur_hash,
+    };
+  } catch {
+    return unsplashFallback;
+  }
+}
+
 app.get("/", async (_, res) => {
-  const background = await (
-    await fetch(
-      "https://api.unsplash.com/photos/random?query=new%20zealand&orientation=landscape",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Authorization: Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
-        },
-      }
-    )
-  ).json();
+  res.render("index", await getUnsplashBackground());
+});
 
-  const image = background.urls.raw;
-  const author = background.user.name;
-  const authorUrl = background.user.links.html;
-  const blurHash = background.blur_hash;
+app.get(/\/app(\/.*)?/, async (req, res) => {
+  if (req.path.split(/\//g).length - 1 <= 1) {
+    if (!!req.user) {
+      res.redirect("/app/home");
+    } else {
+      res.redirect("/app/login");
+    }
 
-  res.render(join(__dirname, "../views/index.ejs"), {
-    image,
-    author,
-    authorUrl,
-    blurHash,
-  });
+    return;
+  }
+
+  res.render("app", await getUnsplashBackground());
 });
 
 import { Server, Socket } from "socket.io";
