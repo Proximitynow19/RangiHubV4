@@ -15,7 +15,17 @@ body {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 4rem;
+  margin: 1rem 0;
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 0.4rem 0;
+}
+
+img {
+  width: 100%;
 }
 
 blurhash-img {
@@ -29,6 +39,7 @@ blurhash-img {
 header {
   height: 80vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: center center no-repeat;
@@ -50,6 +61,16 @@ header .attribution {
 
 header h1 {
   color: #eaeef3;
+}
+header > a {
+  padding: 1rem;
+  border-radius: 25px;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(93.58deg, #0082fa 0%, #0055fa 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+  padding: 0.75rem 2.5rem;
 }
 
 nav {
@@ -87,4 +108,86 @@ nav a {
 
 .box-shadow {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+section {
+  padding: 4rem 12rem;
+}
+
+section h2 {
+  font-size: 3rem;
+  margin: 0.7rem 0;
+}
+
+.row {
+  --columns: 12;
+  padding: 4rem;
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  gap: 0 2rem;
+}
+.row > * {
+  margin: auto;
+  padding: 1rem;
+}
+.row.imgLeft img {
+  grid-column: span 6;
+}
+.row.imgLeft .description {
+  grid-column: 8 / span 5;
+}
+
+.row.imgRight img {
+  grid-column: 7 / span 6;
+}
+.row.imgRight .description {
+  grid-column: span 5;
+}
+
+section:nth-child(odd) {
+  background-color: #f8f8f8;
+}
+
+@media screen and (max-width: 1366px) {
+  :root {
+    font-size: 14px;
+  }
+  section {
+    padding: 4rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  :root {
+    font-size: 12px;
+  }
+  p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
+  section {
+    padding: 2rem;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  :root {
+    font-size: 10px;
+  }
+  section {
+    padding: 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    font-size: 16px;
+  }
+  .row {
+    --columns: 6;
+  }
+  .row img,
+  .row .description {
+    grid-column: span var(--columns) !important;
+  }
 }
