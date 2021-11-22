@@ -7,21 +7,15 @@
     <title>RangiHub</title>
 
     <link rel="stylesheet" href="/public/css/style.css" />
-
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"
-    ></script>
-    <script src="/public/js/index.js"></script>
+    <script type="module" src="https://unpkg.com/blurhash-img?module"></script>
   </head>
   <body>
-    <p>
-      Photo by <a href="<%- authorUrl %>" target="_blank"><%- author %></a> on
-      <a href="https://unsplash.com/" target="_blank">Unsplash</a>
-    </p>
-    <img src="<%- image %>" />
-    <header>
+    <blurhash-img hash="<%- blurHash %>"> </blurhash-img>
+    <header style="background-image: url(<%- image %>)">
+      <p class="attribution">
+        Photo by <a href="<%- authorUrl %>" target="_blank"><%- author %></a> on
+        <a href="https://unsplash.com/" target="_blank">Unsplash</a>
+      </p>
       <nav>
         <div>
           <img src="" alt="Logo" />
@@ -32,5 +26,12 @@
       </nav>
       <h1>RangiHub</h1>
     </header>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/public/js/index.js"></script>
   </body>
 </html>

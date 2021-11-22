@@ -44,7 +44,7 @@ app.use("/public", express.static(join(__dirname, "../public")));
 app.use("/auth", require("./routes/auth"));
 
 app.get("/", async (_, res) => {
-  const heroBackground = await (
+  const background = await (
     await fetch(
       "https://api.unsplash.com/photos/random?query=new%20zealand&orientation=landscape",
       {
@@ -56,14 +56,16 @@ app.get("/", async (_, res) => {
     )
   ).json();
 
-  const image = heroBackground.urls.raw;
-  const author = heroBackground.user.name;
-  const authorUrl = heroBackground.user.links.html;
+  const image = background.urls.raw;
+  const author = background.user.name;
+  const authorUrl = background.user.links.html;
+  const blurHash = background.blur_hash;
 
   res.render(join(__dirname, "../views/index.ejs"), {
     image,
     author,
     authorUrl,
+    blurHash,
   });
 });
 
