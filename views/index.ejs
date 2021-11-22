@@ -12,25 +12,36 @@
   <body>
     <blurhash-img hash="<%- blurHash %>"></blurhash-img>
     <header style="background-image: url(<%- image %>)" class="box-shadow">
+      <nav>
+        <div>
+          <a href="/"><img src="/public/img/logo-white.svg" alt="Logo" /></a>
+        </div>
+        <div>
+          <a href="/app" class="text-shadow box-shadow button">Open App</a>
+        </div>
+      </nav>
+
       <p class="attribution text-shadow">
         Photo by <a href="<%- authorUrl %>" target="_blank"><%- author %></a> on
         <a href="https://unsplash.com/" target="_blank">Unsplash</a>
       </p>
-      <nav>
-        <div>
-          <img src="" alt="Logo" class="box-shadow" />
-        </div>
-        <div>
-          <a href="/app" class="text-shadow box-shadow">Open App</a>
-        </div>
-      </nav>
+
       <h1 class="text-shadow">RangiHub</h1>
       <a href="/app" class="text-shadow box-shadow">Open App</a>
     </header>
 
+    <nav id="dynamic-nav" class="hidden">
+      <div>
+        <a href="/"><img src="/public/img/logo-black.svg" alt="Logo" /></a>
+      </div>
+      <div>
+        <a href="/app" class="text-shadow box-shadow button">Open App</a>
+      </div>
+    </nav>
+
     <section>
       <div class="row imgLeft">
-        <img src="/public/img/class.svg" />
+        <img src="/public/img/class.svg" draggable="false" alt="class" />
         <div class="description">
           <h2>Get notified when your classes start</h2>
           <p>
@@ -55,15 +66,12 @@
             anything to your friends!
           </p>
         </div>
-        <img src="/public/img/chat.svg" />
+        <img src="/public/img/chat.svg" draggable="false" alt="chat" />
       </div>
     </section>
 
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"
-    ></script>
+    <footer></footer>
+
     <script src="/public/js/index.js"></script>
   </body>
 </html>
