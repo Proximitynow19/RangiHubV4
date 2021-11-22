@@ -70,8 +70,10 @@ async function getUnsplashBackground() {
   }
 }
 
+export let unsplashBackground = unsplashFallback;
+
 app.get("/", async (_, res) => {
-  res.render("index", await getUnsplashBackground());
+  res.render("index", unsplashBackground);
 });
 
 app.get(/\/app(\/.*)?/, async (req, res) => {
@@ -85,7 +87,7 @@ app.get(/\/app(\/.*)?/, async (req, res) => {
     return;
   }
 
-  res.render("app", await getUnsplashBackground());
+  res.render("app", unsplashBackground);
 });
 
 import { Server, Socket } from "socket.io";
@@ -120,3 +122,11 @@ io.on("connect", (socket) => {
 server.listen(port, () => {
   console.log(`Server running on port ${port}.`);
 });
+
+(async () => {
+  unsplashBackground = await getUnsplashBackground();
+
+  setInterval(async () => {
+    unsplashBackground = await getUnsplashBackground();
+  }, 1000 * 60 * 60 * 24);
+})();

@@ -11,7 +11,12 @@
   </head>
   <body>
     <blurhash-img hash="<%- blurHash %>"></blurhash-img>
-    <header style="background-image: url(<%- image %>)" class="box-shadow">
+    <header
+      style="
+        background-image: url(<%- image %>?utm_source=RangiHub&utm_medium=referral);
+      "
+      class="box-shadow"
+    >
       <nav>
         <div>
           <a href="/"><img src="/public/img/logo-white.svg" alt="Logo" /></a>
@@ -22,8 +27,18 @@
       </nav>
 
       <p class="attribution text-shadow">
-        Photo by <a href="<%- authorUrl %>" target="_blank"><%- author %></a> on
-        <a href="https://unsplash.com/" target="_blank">Unsplash</a>
+        Photo by
+        <a
+          href="<%- authorUrl %>?utm_source=RangiHub&utm_medium=referral"
+          target="_blank"
+          ><%- author %></a
+        >
+        on
+        <a
+          href="https://unsplash.com/?utm_source=RangiHub&utm_medium=referral"
+          target="_blank"
+          >Unsplash</a
+        >
       </p>
 
       <h1 class="text-shadow">RangiHub</h1>
