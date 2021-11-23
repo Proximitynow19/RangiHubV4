@@ -27,9 +27,14 @@
     <form method="POST" action="/auth/login" class="box-shadow">
       <h1>RangiHub</h1>
       <label>Username</label>
-      <input type="text" name="username" autocomplete="username" />
+      <input type="text" name="username" autocomplete="username" required />
       <label>Password</label>
-      <input type="password" name="password" autocomplete="current-password" />
+      <input
+        type="password"
+        name="password"
+        autocomplete="current-password"
+        required
+      />
       <button type="submit">Login</button>
     </form>
     <blurhash-img hash="<%- blurHash %>"></blurhash-img>

@@ -177,13 +177,15 @@ section h2 {
 }
 
 .row.imgRight img {
+  order: 2;
   grid-column: 7 / span 6;
 }
 .row.imgRight .description {
+  order: 1;
   grid-column: span 5;
 }
 
-section:nth-child(odd) {
+section.alt-background {
   background-color: #f8f8f8;
 }
 
@@ -227,6 +229,7 @@ section:nth-child(odd) {
   }
   .row img,
   .row .description {
+    order: initial !important;
     grid-column: span var(--columns) !important;
   }
 }

@@ -62,6 +62,7 @@ button {
   border: none;
   font-weight: bold;
   font-size: 1.4rem;
+  letter-spacing: 0.05rem;
 }
 button:hover {
   filter: brightness(95%);
@@ -83,6 +84,7 @@ blurhash-img {
   left: 0;
   width: 100%;
   transition: 1s;
+  z-index: 1;
 }
 
 #background {
