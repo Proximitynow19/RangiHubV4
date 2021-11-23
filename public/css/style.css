@@ -230,3 +230,27 @@ section:nth-child(odd) {
     grid-column: span var(--columns) !important;
   }
 }
+
+@media screen and (max-width: 600px) {
+  :root {
+    font-size: 14px;
+  }
+  section {
+    padding: 1rem;
+  }
+  .row {
+    padding: 2rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  :root {
+    font-size: 12px;
+  }
+  section {
+    padding: 0;
+  }
+  .row {
+    padding: 1rem;
+  }
+}
