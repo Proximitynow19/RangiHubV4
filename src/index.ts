@@ -87,7 +87,11 @@ app.get(/\/app(\/.*)?/, async (req, res) => {
     return;
   }
 
-  res.render("app", unsplashBackground);
+  if (!!req.user) {
+    res.render("app", unsplashBackground);
+  } else {
+    res.render("login", unsplashBackground);
+  }
 });
 
 import { Server, Socket } from "socket.io";
