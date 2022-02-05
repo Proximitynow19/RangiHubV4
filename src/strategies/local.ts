@@ -93,7 +93,7 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
       { headers: { cookie: webhead.cookie } }
     );
 
-    const photoData = `data:/${photoResponse.headers.get(
+    const photoData = `data:${photoResponse.headers.get(
       "content-type"
     )};base64,${Buffer.from(await photoResponse.buffer()).toString("base64")}`;
 
