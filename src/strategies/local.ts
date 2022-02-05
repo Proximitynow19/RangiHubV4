@@ -7,6 +7,8 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
   if (!username || !password)
     return done({ code: 422, data: "Missing Fields.", success: false }, false);
 
+  username = username.substring(0, 6);
+
   try {
     // @ts-ignore
     const webhead = new Webhead();
@@ -30,6 +32,19 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
       );
 
     await webhead.submit("form", {});
+
+    await webhead.post(
+      "https://spider.rangitoto.school.nz/Spider/Handlers/Login.asmx/Initialize_LoginPage",
+      {
+        json: {
+          PageIdentityName: username,
+          otp: "",
+          login: "",
+          type: "",
+          ts: "",
+        },
+      }
+    );
 
     const studentInfo = JSON.parse(
       (
