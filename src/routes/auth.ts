@@ -35,6 +35,8 @@ router.post("/login", function (req, res, next) {
         return res.status(500).json({ code: 500, data: err, success: false });
       }
 
+      return res.redirect(user);
+
       return res.status(200).json({ code: 200, data: user, success: true });
     });
   })(req, res, next);
