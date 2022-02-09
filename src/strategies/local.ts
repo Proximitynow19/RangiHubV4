@@ -37,7 +37,7 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
       "https://spider.rangitoto.school.nz/Spider/Handlers/Login.asmx/Initialize_LoginPage",
       {
         json: {
-          PageIdentityName: username,
+          PageIdentityName: "RangiHub",
           otp: "",
           login: "",
           type: "",
