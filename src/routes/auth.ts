@@ -1,19 +1,17 @@
 import { Router } from "express";
 const router = Router();
 import passport from "passport";
-import { join } from "path";
 import { io } from "../index";
 
-router.get("/", (req, res) => {
+router.get("/me", (req, res) => {
   const isAuthenticated = !!req.user;
 
-  res.sendFile(
-    join(
-      __dirname,
-      "../../views",
-      isAuthenticated ? "index.html" : "login.html"
-    )
-  );
+  if (isAuthenticated)
+    return res.status(200).json({ code: 200, data: req.user, success: true });
+
+  return res
+    .status(401)
+    .json({ code: 401, data: "You are not logged in.", success: false });
 });
 
 router.post("/login", function (req, res, next) {
