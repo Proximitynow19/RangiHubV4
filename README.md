@@ -23,7 +23,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+<!-- [![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 
 
@@ -37,7 +37,7 @@
 <h3 align="center">RangiHub</h3>
 
   <p align="center">
-    The new version of the RangiHub project start in 2020! Includes many new features and a new design. Expected to be finished later this year.
+    The new version of the RangiHub project that started in 2020! Includes many new features and a new design. Expected to be finished later this year.
     <br />
     <a href="https://github.com/Proximitynow19/RangiHubV4"><strong>Explore the docs »</strong></a>
     <br />
@@ -85,7 +85,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://rangi.xyz/)
 
-<!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `Proximitynow19`, `RangiHubV4`, `twitter_handle`, `linkedin_username`, `rangitoto.school.nz`, `142328`, `RangiHub`, `The new version of the RangiHub project start in 2020! Includes many new features and a new design. Expected to be finished later this year.` -->
+<!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `Proximitynow19`, `RangiHubV4`, `twitter_handle`, `linkedin_username`, `rangitoto.school.nz`, `142328`, `RangiHub`, `The new version of the RangiHub project that started in 2020! Includes many new features and a new design. Expected to be finished later this year.` -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -245,7 +245,7 @@ I'll update this later when there are more feature in the app.
 [license-url]: https://github.com/Proximitynow19/RangiHubV4/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: product-screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
