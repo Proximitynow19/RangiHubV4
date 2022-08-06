@@ -49,7 +49,7 @@ async function getUnsplashBackground() {
   try {
     const background = await (
       await fetch(
-        "https://api.unsplash.com/photos/random?query=new%20zealand&orientation=landscape",
+        "https://api.unsplash.com/photos/random?query=auckland&orientation=landscape",
         {
           method: "GET",
           headers: {
@@ -128,5 +128,5 @@ server.listen(port, () => {
 
   setInterval(async () => {
     unsplashBackground = await getUnsplashBackground();
-  }, 1000 * 60 * 60 * 24);
+  }, 1000 * 60 * 60);
 })();

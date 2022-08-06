@@ -6,7 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RangiHub</title>
 
+    <link
+      rel="shortcut icon"
+      href="/public/img/favicon.svg"
+      type="image/x-icon"
+    />
     <link rel="stylesheet" href="/public/css/app.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="https://unpkg.com/blurhash-img?module"></script>
   </head>
   <body>
@@ -24,14 +35,44 @@
         >Unsplash</a
       >
     </p>
-    <form method="POST" action="/auth/login" class="box-shadow">
+    <!-- <form method="POST" action="/auth/login" class="box-shadow">
       <h1>RangiHub</h1>
       <label>Username</label>
       <input type="text" name="username" autocomplete="username" />
       <label>Password</label>
       <input type="password" name="password" autocomplete="current-password" />
       <button type="submit">Login</button>
-    </form>
+    </form> -->
+
+    <div id="appBack" class="box-shadow">
+      <div id="spinner" class="hidden">
+        <div class="lds-ellipsis">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <span><strong id="spinnerMessage">Loading Status</strong></span>
+      </div>
+      <div id="loginScreen">
+        <h1>login</h1>
+        <form id="loginForm">
+          <label for="username">USERNAME</label
+          ><input type="text" name="username" /><label for="password"
+            >PASSWORD</label
+          ><input type="password" name="password" /><button type="submit">
+            Next
+          </button>
+        </form>
+        <span
+          ><strong
+            >By continuing you agree to our <a href="#">Privacy Policy</a> and
+            <a href="#">Terms and Conditions</a></strong
+          ></span
+        >
+      </div>
+    </div>
+
     <blurhash-img hash="<%- blurHash %>"></blurhash-img>
     <section
       id="background"
