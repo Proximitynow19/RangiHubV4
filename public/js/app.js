@@ -172,6 +172,16 @@ async function loadPageData() {
 
 function errorMessage(errTitle, errDesc) {
   console.log(errTitle, errDesc);
+
+  $("#notices").html(
+    `${$(
+      "#notices"
+    ).html()}<div class="err"><strong>${errTitle}</strong><span>${errDesc}</span></div>`
+  );
+
+  setTimeout(() => {
+    $("#notices > div").first().remove();
+  }, 5000);
 }
 
 (async () => {
@@ -193,6 +203,16 @@ function errorMessage(errTitle, errDesc) {
 
 function noticeMessage(noticeTitle, noticeDesc) {
   console.log(noticeTitle, noticeDesc);
+
+  $("#notices").html(
+    `${$(
+      "#notices"
+    ).html()}<div class="notice"><strong>${noticeTitle}</strong><span>${noticeDesc}</span></div>`
+  );
+
+  setTimeout(() => {
+    $("#notices > div").first().remove();
+  }, 5000);
 }
 
 function connectToServer(resolve, _) {
@@ -253,6 +273,14 @@ function connectToServer(resolve, _) {
     );
   });
 }
+
+window.addEventListener(
+  "popstate",
+  async function () {
+    await renderPage();
+  },
+  false
+);
 
 async function logout() {
   await $.post("/auth/logout");

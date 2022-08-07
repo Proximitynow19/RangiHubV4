@@ -257,3 +257,29 @@ a:hover,
     font-size: 14px;
   }
 }
+
+#notices {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+}
+
+.notice {
+  background-color: rgba(147, 187, 224, 0.9);
+}
+
+.err {
+  background-color: rgba(252, 126, 126, 0.9);
+}
+
+#notices > div {
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+#notices > div > * {
+  display: block;
+  text-align: right;
+}
