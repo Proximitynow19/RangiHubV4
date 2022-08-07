@@ -206,7 +206,9 @@ blurhash-img {
   left: 0;
 }
 
-a {
+a,
+.a {
+  cursor: pointer;
   color: unset;
   font-weight: bold;
   text-decoration: none;
@@ -214,7 +216,8 @@ a {
   transition: 0.2s opacity ease-in-out;
 }
 
-a:hover {
+a:hover,
+.a:hover {
   opacity: 1;
 }
 

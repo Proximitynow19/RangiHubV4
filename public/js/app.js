@@ -62,12 +62,14 @@ async function renderPage() {
 
     await loadPageData();
   } catch (err) {
-    errorMessage(
-      "Page not found",
-      "We had trouble loading the page requested."
-    );
+    console.log(err);
 
-    await gotoPage("home");
+    // errorMessage(
+    //   "Page not found",
+    //   "We had trouble loading the page requested."
+    // );
+
+    // await gotoPage("home");
   }
 
   displaySpinner(false);
@@ -85,6 +87,19 @@ async function loadPageData() {
 
       return gotoPage("login/" + pageInfo.join("/"));
     }
+
+    $(".userSet").each(function () {
+      let val = user;
+
+      $(this)
+        .data("prop")
+        .split(/\./g)
+        .forEach((element) => {
+          val = val[element];
+
+          $(this).text(val);
+        });
+    });
   }
 
   switch (pageInfo[0]) {
@@ -96,10 +111,12 @@ async function loadPageData() {
         e.preventDefault();
 
         try {
-          user = await $.post(`/auth/login`, $("#loginForm").serialize());
+          user = (await $.post(`/auth/login`, $("#loginForm").serialize()))
+            .data;
 
-          console.log(
-            `Successfully logged in as ${user.data.studentInfo.KnownAs}`
+          noticeMessage(
+            `Welcome back, ${user.studentInfo.KnownAs}!`,
+            "You have been logged in."
           );
 
           await new Promise(connectToServer);
@@ -123,6 +140,11 @@ function errorMessage(errTitle, errDesc) {
 (async () => {
   try {
     user = (await $.get("/auth/me")).data;
+
+    noticeMessage(
+      `Welcome back, ${user.studentInfo.KnownAs}!`,
+      "You have been logged in."
+    );
 
     await new Promise(connectToServer);
   } catch (err) {
@@ -186,9 +208,29 @@ function connectToServer(resolve, _) {
   });
 
   socket.on("disconnect", () => {
+    displaySpinner(true, "Disconnected from server");
+
     noticeMessage(
       "Disconnected",
       "You have been disconnected from the server."
     );
   });
+}
+
+async function logout() {
+  await $.post("/auth/logout");
+
+  user = null;
+
+  await socket.disconnect();
+
+  socket = null;
+
+  await gotoPage(
+    "login/" +
+      window.location.href
+        .split(/\/app\//g)[1]
+        .split(/\//g)
+        .join("/")
+  );
 }
