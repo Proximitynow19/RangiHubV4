@@ -24,9 +24,9 @@
     <p class="attribution text-shadow">
       Photo by
       <a
-        href="<%- authorUrl %>?utm_source=RangiHub&utm_medium=referral"
+        href="<%- unsplashBackground.authorUrl %>?utm_source=RangiHub&utm_medium=referral"
         target="_blank"
-        ><%- author %></a
+        ><%- unsplashBackground.author %></a
       >
       on
       <a
@@ -35,14 +35,6 @@
         >Unsplash</a
       >
     </p>
-    <!-- <form method="POST" action="/auth/login" class="box-shadow">
-      <h1>RangiHub</h1>
-      <label>Username</label>
-      <input type="text" name="username" autocomplete="username" />
-      <label>Password</label>
-      <input type="password" name="password" autocomplete="current-password" />
-      <button type="submit">Login</button>
-    </form> -->
 
     <div id="appBack" class="box-shadow">
       <div id="spinner" class="hidden">
@@ -55,17 +47,25 @@
         <span><strong id="spinnerMessage" class="hidden"></strong></span>
       </div>
 
-      <div id="viewport" class="hidden"></div>
+      <h1 class="title vp hidden"></h1>
+      <div id="viewport" class="vp hidden"></div>
     </div>
 
-    <blurhash-img hash="<%- blurHash %>"></blurhash-img>
+    <blurhash-img hash="<%- unsplashBackground.blurHash %>"></blurhash-img>
     <section
       id="background"
       style="
-        background-image: url(<%- image %>?utm_source=RangiHub&utm_medium=referral);
+        background-image: url(<%- unsplashBackground.image %>?utm_source=RangiHub&utm_medium=referral);
       "
     ></section>
 
     <script src="/public/js/app.js"></script>
+
+    <a
+      href="https://github.com/Proximitynow19/RangiHubV4/commit/<%- version %>"
+      target="_blank"
+      id="version"
+      ><%- version %></a
+    >
   </body>
 </html>

@@ -15,10 +15,10 @@
     <script type="module" src="https://unpkg.com/blurhash-img?module"></script>
   </head>
   <body>
-    <blurhash-img hash="<%- blurHash %>"></blurhash-img>
+    <blurhash-img hash="<%- unsplashBackground.blurHash %>"></blurhash-img>
     <header
       style="
-        background-image: url(<%- image %>?utm_source=RangiHub&utm_medium=referral);
+        background-image: url(<%- unsplashBackground.image %>?utm_source=RangiHub&utm_medium=referral);
       "
       class="box-shadow"
     >
@@ -34,9 +34,9 @@
       <p class="attribution text-shadow">
         Photo by
         <a
-          href="<%- authorUrl %>?utm_source=RangiHub&utm_medium=referral"
+          href="<%- unsplashBackground.authorUrl %>?utm_source=RangiHub&utm_medium=referral"
           target="_blank"
-          ><%- author %></a
+          ><%- unsplashBackground.author %></a
         >
         on
         <a
@@ -90,7 +90,13 @@
       </div>
     </section>
 
-    <footer></footer>
+    <footer>
+      <a
+        href="https://github.com/Proximitynow19/RangiHubV4/commit/<%- version %>"
+        target="_blank"
+        ><%- version %></a
+      >
+    </footer>
 
     <script src="/public/js/index.js"></script>
   </body>

@@ -9,6 +9,11 @@ import localStrategy from "./strategies/local";
 import { join } from "path";
 import fetch from "node-fetch";
 import { unsplashFallback } from "./config.json";
+import { execSync } from "child_process";
+
+const version = execSync("git rev-parse --short HEAD").toString().trim();
+
+console.log(`Commit ID: ${version}`);
 
 config();
 
@@ -73,7 +78,7 @@ async function getUnsplashBackground() {
 export let unsplashBackground = unsplashFallback;
 
 app.get("/", async (_, res) => {
-  res.render("index", unsplashBackground);
+  res.render("index", { unsplashBackground, version });
 });
 
 app.get(/\/app(\/.*)?/, async (req, res) => {
@@ -87,7 +92,7 @@ app.get(/\/app(\/.*)?/, async (req, res) => {
     return;
   }
 
-  res.render("app", unsplashBackground);
+  res.render("app", { unsplashBackground, version });
 });
 
 import { Server, Socket } from "socket.io";

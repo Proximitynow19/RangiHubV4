@@ -133,12 +133,16 @@ nav .button {
   opacity: 0;
 }
 
-.attribution a {
-  color: #c1c6cc;
-  transition: 0.2s all;
+a {
+  color: unset;
+  font-weight: bold;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: 0.2s opacity ease-in-out;
 }
-.attribution a:hover {
-  color: #f9fbff;
+
+a:hover {
+  opacity: 1;
 }
 
 .text-shadow {
