@@ -130,6 +130,43 @@ async function loadPageData() {
           displaySpinner(false);
         }
       });
+      break;
+    case "home":
+      let nextDay = user.timetable.find(
+        (k) =>
+          new Date(
+            `${k.Date.slice(0, -8)}${k.periodData
+              .at(-1)
+              .ToTime.replace(/\./g, ":")}`
+          ).getTime() > Date.now()
+      );
+
+      let periods = nextDay.periodData.filter(
+        (k) =>
+          new Date(
+            `${nextDay.Date.slice(0, -8)}${k.ToTime.replace(/\./g, ":")}`
+          ).getTime() > Date.now()
+      );
+
+      const listClasses = periods.length;
+
+      for (var i = 0; i < listClasses; i++) {
+        $("#upcoming").html(
+          `${$("#upcoming").html()}<div><span class="className">${
+            periods[i].teacherTimeTable.Desc
+          }</span><span class="classTime">${
+            new Date(
+              `${nextDay.Date.slice(0, -8)}${periods[i].FromTime.replace(
+                /\./g,
+                ":"
+              )}`
+            ).getTime() > Date.now()
+              ? periods[i].FromTime.replace(/\./g, ":")
+              : periods[i].ToTime.replace(/\./g, ":")
+          }</span></div>`
+        );
+      }
+      break;
   }
 }
 

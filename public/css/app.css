@@ -133,13 +133,36 @@ h1 {
   font-weight: 500;
 }
 
-#loginScreen > form > input {
+#loginScreen > form > input,
+#upcoming > div {
   width: 1000px;
   background: #f0f0f0;
   border-radius: 5px;
   border: none;
   padding: 15px;
   font-size: 15px;
+}
+
+#upcoming > div {
+  margin-top: 15px;
+  position: relative;
+  overflow: none;
+}
+
+.className {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.classTime {
+  font-size: 100px;
+  font-weight: 900;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translateY(40%);
+  color: white;
+  opacity: 0.35;
 }
 
 #loginScreen > form > * {
