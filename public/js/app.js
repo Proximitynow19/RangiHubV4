@@ -64,12 +64,12 @@ async function renderPage() {
   } catch (err) {
     console.log(err);
 
-    // errorMessage(
-    //   "Page not found",
-    //   "We had trouble loading the page requested."
-    // );
+    errorMessage(
+      "Page not found",
+      "We had trouble loading the page requested."
+    );
 
-    // await gotoPage("home");
+    await gotoPage("home");
   }
 
   displaySpinner(false);
