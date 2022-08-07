@@ -10,6 +10,8 @@ import { join } from "path";
 import fetch from "node-fetch";
 import { unsplashFallback } from "./config.json";
 import { execSync } from "child_process";
+import fs from "fs";
+import MarkdownIt from "markdown-it";
 
 const version = execSync("git rev-parse --short HEAD").toString().trim();
 
@@ -18,6 +20,8 @@ console.log(`Commit ID: ${version}`);
 config();
 
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
+const md = new MarkdownIt();
 
 const app = express();
 
@@ -46,6 +50,25 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use("LocalStrategy", localStrategy);
+
+app.use("/docs/:f", (req, res, next) => {
+  try {
+    const file = fs.readFileSync(
+      join(__dirname, `../docs/${req.params.f}`),
+      "utf8"
+    );
+
+    res
+      .status(200)
+      .render("doc", { title: req.params.f, document: md.render(file) });
+  } catch (e) {
+    return res.status(404).json({
+      code: 404,
+      data: "Could not find requested document.",
+      success: false,
+    });
+  }
+});
 
 app.use("/public", express.static(join(__dirname, "../public")));
 app.use("/auth", require("./routes/auth"));

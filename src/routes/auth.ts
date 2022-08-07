@@ -39,6 +39,13 @@ router.post("/login", function (req, res, next) {
 });
 
 router.post("/logout", (req, res) => {
+  const isAuthenticated = !!req.user;
+
+  if (!isAuthenticated)
+    return res
+      .status(401)
+      .json({ code: 401, data: "You are not logged in.", success: false });
+
   const socketId = req.session.socketId;
 
   if (socketId && io.of("/").sockets.get(socketId)) {
@@ -46,8 +53,8 @@ router.post("/logout", (req, res) => {
   }
 
   req.logout();
-  res.cookie("connect.sid", "", { expires: new Date() });
-  res.redirect("/");
+
+  res.status(200).json({ code: 200, data: null, success: true });
 });
 
 passport.serializeUser((user: any, cb) => {
