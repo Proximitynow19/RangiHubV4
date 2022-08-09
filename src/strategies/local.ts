@@ -97,7 +97,10 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
       "content-type"
     )};base64,${Buffer.from(await photoResponse.buffer()).toString("base64")}`;
 
-    return done(null, { studentInfo, timetable, photoData });
+    return done(null, {
+      u_dat: { studentInfo, timetable, photoData },
+      cookie: webhead.cookie,
+    });
   } catch (e) {
     console.error(e);
 

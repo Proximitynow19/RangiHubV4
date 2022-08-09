@@ -7,7 +7,9 @@ router.get("/me", (req, res) => {
   const isAuthenticated = !!req.user;
 
   if (isAuthenticated)
-    return res.status(200).json({ code: 200, data: req.user, success: true });
+    return res
+      .status(200)
+      .json({ code: 200, data: req.user.u_dat, success: true });
 
   return res
     .status(401)
@@ -33,7 +35,9 @@ router.post("/login", function (req, res, next) {
         return res.status(500).json({ code: 500, data: err, success: false });
       }
 
-      return res.status(200).json({ code: 200, data: user, success: true });
+      return res
+        .status(200)
+        .json({ code: 200, data: user.u_dat, success: true });
     });
   })(req, res, next);
 });

@@ -72,6 +72,7 @@ app.use("/docs/:f", (req, res, next) => {
 
 app.use("/public", express.static(join(__dirname, "../public")));
 app.use("/auth", require("./routes/auth"));
+app.use("/api", require("./routes/api"));
 
 async function getUnsplashBackground() {
   try {

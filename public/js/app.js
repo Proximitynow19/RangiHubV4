@@ -167,6 +167,27 @@ async function loadPageData() {
         );
       }
       break;
+    case "attendance":
+      displaySpinner(true, "Loading attendance data");
+
+      const attendanceData = (await $.get("/api/timetableSummary")).data;
+
+      console.log(attendanceData);
+
+      $("#attendanceFrom").text(
+        `${attendanceData.from} - ${attendanceData.to}`
+      );
+
+      attendanceData.attentionPeriods.forEach((period) => {
+        $("#attendanceIssues").html(
+          `${$("#attendanceIssues").html()}<div><span class="className">${
+            period.code
+          }</span><strong>[${period.date}] ${period.class.subject} - ${
+            period.class.teacher
+          }</strong><span>${period.explanation}</span></div>`
+        );
+      });
+      break;
   }
 }
 
