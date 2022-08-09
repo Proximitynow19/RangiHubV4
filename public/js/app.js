@@ -132,20 +132,20 @@ async function loadPageData() {
       });
       break;
     case "home":
-      let nextDay = user.timetable.find(
-        (k) =>
-          new Date(
-            `${k.Date.slice(0, -8)}${k.periodData
-              .at(-1)
-              .ToTime.replace(/\./g, ":")}`
-          ).getTime() > Date.now()
+      let nextDay = user.timetable.find((k) =>
+        moment(
+          `${k.Date.slice(0, -8)}${k.periodData
+            .at(-1)
+            .ToTime.replace(/\./g, ":")}`,
+          "DD/MM/YYYY hh:mm"
+        ).isAfter(moment())
       );
 
-      let periods = nextDay.periodData.filter(
-        (k) =>
-          new Date(
-            `${nextDay.Date.slice(0, -8)}${k.ToTime.replace(/\./g, ":")}`
-          ).getTime() > Date.now()
+      let periods = nextDay.periodData.filter((k) =>
+        moment(
+          `${nextDay.Date.slice(0, -8)}${k.ToTime.replace(/\./g, ":")}`,
+          "DD/MM/YYYY hh:mm"
+        ).isAfter(moment())
       );
 
       const listClasses = periods.length;
@@ -155,12 +155,13 @@ async function loadPageData() {
           `${$("#upcoming").html()}<div><span class="className">${
             periods[i].teacherTimeTable.Desc
           }</span><span class="classTime">${
-            new Date(
+            moment(
               `${nextDay.Date.slice(0, -8)}${periods[i].FromTime.replace(
                 /\./g,
                 ":"
-              )}`
-            ).getTime() > Date.now()
+              )}`,
+              "DD/MM/YYYY hh:mm"
+            ).isAfter(moment())
               ? periods[i].FromTime.replace(/\./g, ":")
               : periods[i].ToTime.replace(/\./g, ":")
           }</span></div>`
@@ -171,8 +172,6 @@ async function loadPageData() {
       displaySpinner(true, "Loading attendance data");
 
       const attendanceData = (await $.get("/api/timetableSummary")).data;
-
-      console.log(attendanceData);
 
       $("#attendanceFrom").text(
         `${attendanceData.from} - ${attendanceData.to}`

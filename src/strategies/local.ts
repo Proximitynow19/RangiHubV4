@@ -15,6 +15,12 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
 
     await webhead.get("http://spider.rangitoto.school.nz/");
 
+    const redirect = webhead.$("#redirect")[0];
+
+    if (redirect) {
+      await webhead.get(redirect.attribs.href);
+    }
+
     const authState = webhead.$('input[type="hidden"]')[0].attribs.value;
 
     if (
