@@ -33,9 +33,6 @@ router.get("/timetableSummary", async (req, res) => {
       )
     ).json();
 
-    const timeNow = moment();
-    const weekAgo = moment().subtract(7, "days");
-
     const lastTwoWeeks = Object.values(attendanceData.d.WeekAttendance).slice(
       -2
     );
@@ -113,8 +110,8 @@ router.get("/timetableSummary", async (req, res) => {
     return res.status(200).json({
       code: 200,
       data: {
-        from: weekAgo.format("DD/MM/YYYY"),
-        to: timeNow.format("DD/MM/YYYY"),
+        from: (lastTwoWeeks[0] as any).StartDate,
+        to: (lastTwoWeeks.at(-1) as any).EndDate,
         attentionPeriods,
       },
       success: true,
