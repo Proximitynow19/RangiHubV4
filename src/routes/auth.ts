@@ -2,6 +2,12 @@ import { Router } from "express";
 const router = Router();
 import passport from "passport";
 import { io } from "../index";
+import User from "../models/User";
+import sgMail from "@sendgrid/mail";
+import fs from "fs";
+import { join } from "path";
+
+sgMail.setApiKey(process.env.SENDGRID_KEY as string);
 
 router.get("/me", (req, res) => {
   const isAuthenticated = !!req.user;
@@ -30,9 +36,34 @@ router.post("/login", function (req, res, next) {
       });
     }
 
-    req.logIn(user, function (err) {
+    req.logIn(user, async function (err) {
       if (err) {
         return res.status(500).json({ code: 500, data: err, success: false });
+      }
+
+      let document = await User.findOne({
+        username: `${user.u_dat.studentInfo.StudentID}`,
+      });
+
+      if (!document) {
+        try {
+          document = new User({
+            username: `${user.u_dat.studentInfo.StudentID}`,
+            joined_at: new Date(),
+          });
+
+          document.save();
+
+          sgMail.send({
+            to: user.u_dat.studentInfo.Email,
+            from: "noreply@rangi.xyz",
+            subject: `Hello ${user.u_dat.studentInfo.KnownAs}, Welcome to RangiHub`,
+            html: fs
+              .readFileSync(join(__dirname, "../../welcome.html"), "utf8")
+              .replace(/%n/g, user.u_dat.studentInfo.KnownAs)
+              .replace(/%e/g, user.u_dat.studentInfo.Email),
+          });
+        } catch (err) {}
       }
 
       return res

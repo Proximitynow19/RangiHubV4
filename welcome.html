@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello %n%, Welcome to RangiHub</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+      :root {
+        font-size: 16px;
+      }
+
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        color: #333;
+        font-size: 1rem;
+        background-color: #fff;
+        scrollbar-color: #888 transparent;
+        scrollbar-width: thin;
+      }
+
+      h1 {
+        font-size: 4rem;
+        margin: 1rem 0;
+      }
+
+      p {
+        font-size: 1.2rem;
+        margin: 0.4rem 0;
+      }
+
+      img:not(nav > div > a > img) {
+        width: 100%;
+      }
+
+      blurhash-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        transition: 1s;
+      }
+
+      header {
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: center center no-repeat;
+        background-size: cover;
+      }
+
+      header > * {
+        z-index: 1;
+      }
+
+      header .attribution {
+        position: absolute;
+        top: 80vh;
+        transform: translateY(-200%);
+        right: 0;
+        margin: 1rem;
+        color: #e9eaeb;
+      }
+
+      header h1 {
+        color: #eaeef3;
+      }
+
+      header > a {
+        padding: 1rem;
+        border-radius: 25px;
+        text-decoration: none;
+        color: #fff;
+        background: linear-gradient(93.58deg, #0082fa 0%, #0055fa 100%);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 25px;
+        padding: 0.75rem 2.5rem;
+      }
+
+      nav {
+        box-sizing: border-box;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 2rem 3rem;
+        z-index: 999;
+      }
+
+      nav > div > a > img {
+        position: absolute;
+        top: 50%;
+        height: 70%;
+        transform: translateY(-50%);
+
+        -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+      }
+
+      header > nav {
+        position: absolute;
+      }
+
+      nav .button {
+        text-decoration: none;
+        color: #fff;
+        background: linear-gradient(93.58deg, #0082fa 0%, #0055fa 100%);
+        border-radius: 25px;
+        padding: 0.75rem 2.5rem;
+      }
+
+      #dynamic-nav {
+        position: fixed;
+        transition: opacity 0.2s ease-in-out;
+      }
+
+      #dynamic-nav.hidden {
+        opacity: 0;
+      }
+
+      a.nocss {
+        color: unset;
+        text-decoration: none;
+      }
+
+      a:not(.button, .nocss) {
+        color: unset;
+        font-weight: bold;
+        text-decoration: none;
+        opacity: 0.8;
+        transition: 0.2s opacity ease-in-out;
+      }
+
+      a:not(.button, .nocss):hover {
+        opacity: 1;
+      }
+
+      .text-shadow {
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      }
+
+      .box-shadow {
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      }
+
+      section {
+        padding: 4rem 12rem;
+      }
+
+      section h2 {
+        font-size: 3rem;
+        margin: 0.7rem 0;
+      }
+
+      .row {
+        --columns: 12;
+        padding: 4rem;
+        display: grid;
+        grid-template-columns: repeat(var(--columns), 1fr);
+        gap: 0 2rem;
+      }
+      .row > * {
+        margin: auto;
+        padding: 1rem;
+      }
+      .row.imgLeft img {
+        grid-column: span 6;
+      }
+      .row.imgLeft .description {
+        grid-column: 8 / span 5;
+      }
+
+      .row.imgRight img {
+        order: 2;
+        grid-column: 7 / span 6;
+      }
+      .row.imgRight .description {
+        order: 1;
+        grid-column: span 5;
+      }
+
+      section.alt-background {
+        background-color: #f8f8f8;
+      }
+    </style>
+  </head>
+  <body>
+    <header
+      style="background-image: url(%i%?utm_source=RangiHub&utm_medium=referral)"
+      class="box-shadow"
+    >
+      <p class="attribution text-shadow">
+        Photo by
+        <a href="%u%?utm_source=RangiHub&utm_medium=referral" target="_blank"
+          >%a%</a
+        >
+        on
+        <a
+          href="https://unsplash.com/?utm_source=RangiHub&utm_medium=referral"
+          target="_blank"
+          >Unsplash</a
+        >
+      </p>
+
+      <h1 class="text-shadow">Welcome</h1>
+      <a
+        href="https://rangi.xyz/app"
+        target="_blank"
+        class="text-shadow box-shadow button"
+        >Open App</a
+      >
+    </header>
+
+    <a href="https://rangi.xyz/app/home" target="_blank" class="nocss">
+      <section>
+        <div class="row imgLeft">
+          <img
+            src="https://rangi.xyz/public/img/class.svg"
+            draggable="false"
+            alt="class"
+          />
+          <div class="description">
+            <h2>Get notified when your classes start</h2>
+            <p>
+              RangiHub allows you to know what and when your next class starts
+              and notifies you!
+            </p>
+            <p>
+              You will never forget what class is next and when it starts ever
+              again after using this feature!
+            </p>
+          </div>
+        </div>
+      </section></a
+    >
+
+    <a href="https://rangi.xyz/app/chats" target="_blank" class="nocss">
+      <section class="alt-background">
+        <div class="row imgRight">
+          <img
+            src="https://rangi.xyz/public/img/chat.svg"
+            draggable="false"
+            alt="chat"
+          />
+          <div class="description">
+            <h2>Easily communicate with your friends</h2>
+            <p>
+              RangiHub allows you to easily communicate with all your friends!
+              You can easily share notes, discuss your classes, and talk about
+              anything to your friends!
+            </p>
+          </div>
+        </div>
+      </section></a
+    >
+  </body>
+</html>

@@ -1,6 +1,5 @@
 import { Router } from "express";
 import fetch from "node-fetch";
-import moment from "moment";
 
 const router = Router();
 

@@ -11,6 +11,7 @@ import fetch from "node-fetch";
 import { unsplashFallback } from "./config.json";
 import { execSync } from "child_process";
 import fs from "fs";
+import mongoose from "mongoose";
 import MarkdownIt from "markdown-it";
 
 const version = execSync("git rev-parse --short HEAD").toString().trim();
@@ -20,6 +21,8 @@ console.log(`Commit ID: ${version}`);
 config();
 
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
+mongoose.connect(process.env.MONGO_CONNECTION as string);
 
 const md = new MarkdownIt();
 
