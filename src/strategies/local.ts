@@ -1,7 +1,5 @@
 import { Strategy as LocalStrategy } from "passport-local";
 import Webhead from "webhead";
-import moment from "moment";
-import fetch from "node-fetch";
 
 const localStrategy = new LocalStrategy(async (username, password, done) => {
   if (!username || !password)
@@ -77,34 +75,14 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
       ).data
     ).d[0];
 
-    const timetable = JSON.parse(
-      (
-        await webhead.post(
-          "https://spider.rangitoto.school.nz/Spider/Handlers/Timetable.asmx/GetTimeTable_ByStudentMode",
-          {
-            json: {
-              StudentKey: studentInfo.StudentKey,
-              Date: moment().format("DD/MM/YYYY"),
-              Mode: "STT",
-            },
-          }
-        )
-      ).data
-    ).d;
-
-    const photoResponse = await fetch(
-      `https://spider.rangitoto.school.nz/Spider/Handlers/ImageHandler.ashx?imageHeight=200&arg=${encodeURIComponent(
-        studentInfo.ImageNameEncrypted
-      )}`,
-      { headers: { cookie: webhead.cookie } }
-    );
-
-    const photoData = `data:${photoResponse.headers.get(
-      "content-type"
-    )};base64,${Buffer.from(await photoResponse.buffer()).toString("base64")}`;
-
     return done(null, {
-      u_dat: { studentInfo, timetable, photoData },
+      info: {
+        name: studentInfo.KnownAs,
+        key: studentInfo.StudentKey,
+        id: studentInfo.StudentID,
+        email: studentInfo.Email,
+        image: studentInfo.ImageNameEncrypted,
+      },
       cookie: webhead.cookie,
     });
   } catch (e) {

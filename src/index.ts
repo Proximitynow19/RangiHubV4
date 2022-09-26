@@ -81,7 +81,7 @@ async function getUnsplashBackground() {
   try {
     const background = await (
       await fetch(
-        "https://api.unsplash.com/photos/random?query=auckland&orientation=landscape",
+        "https://api.unsplash.com/photos/random?query=mountain&orientation=landscape",
         {
           method: "GET",
           headers: {
