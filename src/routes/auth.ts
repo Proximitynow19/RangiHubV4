@@ -39,18 +39,16 @@ router.post("/login", function (req, res, next) {
         return res.status(500).json({ code: 500, data: err, success: false });
       }
 
-      let document = await User.findOne({
-        username: `${user.info.id}`,
-      });
-
-      if (!document) {
+      if (
+        !(await User.exists({
+          username: user.info.id,
+        }))
+      ) {
         try {
-          document = new User({
-            username: `${user.info.id}`,
+          new User({
+            username: user.info.id,
             joined_at: new Date(),
-          });
-
-          document.save();
+          }).save();
 
           sgMail.send({
             to: user.info.email,
