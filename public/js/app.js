@@ -75,7 +75,22 @@ async function renderPage() {
   displaySpinner(false);
 }
 
+let timeouts = [];
+let intervals = [];
+
 async function loadPageData() {
+  for (let i = 0; i < timeouts.length; i++) {
+    clearTimeout(timeouts[i]);
+  }
+
+  timeouts = [];
+
+  for (let i = 0; i < intervals.length; i++) {
+    clearInterval(intervals[i]);
+  }
+
+  intervals = [];
+
   const pageInfo = window.location.href.split(/\/app\//g)[1].split(/\//g);
 
   if (pageInfo[0] !== "login") {
@@ -95,9 +110,11 @@ async function loadPageData() {
         .data("prop")
         .split(/\./g)
         .forEach((element) => {
-          val = val[element];
+          if (val) {
+            val = val[element];
 
-          $(this).text(val);
+            $(this).text(val);
+          }
         });
     });
   }
@@ -115,7 +132,7 @@ async function loadPageData() {
             .data;
 
           noticeMessage(
-            `Welcome back, ${user.studentInfo.KnownAs}!`,
+            `Welcome back, ${user.name}!`,
             "You have been logged in."
           );
 
@@ -132,60 +149,60 @@ async function loadPageData() {
       });
       break;
     case "home":
-      let nextDay = user.timetable.find((k) =>
-        moment(
-          `${k.Date.slice(0, -8)}${k.periodData
-            .at(-1)
-            .ToTime.replace(/\./g, ":")}`,
-          "DD/MM/YYYY hh:mm"
-        ).isAfter(moment())
-      );
+      const timetableData = (await $.get("/api/timetable")).data;
+      const nextDay = timetableData.nextDay;
+      const periods = timetableData.nextDay.periodData;
 
-      let periods = nextDay.periodData.filter((k) =>
-        moment(
-          `${nextDay.Date.slice(0, -8)}${k.ToTime.replace(/\./g, ":")}`,
-          "DD/MM/YYYY hh:mm"
-        ).isAfter(moment())
-      );
+      if (periods.length > 0) {
+        const nextDate = nextDay.Date.slice(0, -8);
 
-      const listClasses = periods.length;
-
-      for (var i = 0; i < listClasses; i++) {
         $("#upcoming").html(
-          `${$("#upcoming").html()}<div><span class="className">${
-            periods[i].teacherTimeTable.Desc
-          }</span><span class="classTime">${
-            moment(
-              `${nextDay.Date.slice(0, -8)}${periods[i].FromTime.replace(
-                /\./g,
-                ":"
-              )}`,
-              "DD/MM/YYYY hh:mm"
-            ).isAfter(moment())
-              ? periods[i].FromTime.replace(/\./g, ":")
-              : periods[i].ToTime.replace(/\./g, ":")
-          }</span></div>`
+          periods
+            .map(
+              (k) =>
+                `<div><span class="className">${
+                  k.teacherTimeTable.Desc
+                }</span><span class="classTime">${
+                  moment(
+                    `${nextDate}${k.FromTime.replace(/\./g, ":")}`,
+                    "DD/MM/YYYY hh:mm"
+                  ).isAfter(moment())
+                    ? k.FromTime.replace(/\./g, ":")
+                    : k.ToTime.replace(/\./g, ":")
+                }</span></div>`
+            )
+            .join("")
         );
       }
+
+      const timetableRefresh = moment.duration(
+        moment(timetableData.expiry).diff(moment())
+      );
+
+      timeouts.push(
+        setTimeout(() => {
+          loadPageData();
+        }, timetableRefresh.as("milliseconds"))
+      );
       break;
     case "attendance":
       displaySpinner(true, "Loading attendance data");
 
-      const attendanceData = (await $.get("/api/timetableSummary")).data;
+      const attendanceData = (await $.get("/api/attendance")).data;
 
       $("#attendanceFrom").text(
         `${attendanceData.from} - ${attendanceData.to}`
       );
 
-      attendanceData.attentionPeriods.forEach((period) => {
-        $("#attendanceIssues").html(
-          `${$("#attendanceIssues").html()}<div><span class="className">${
-            period.code
-          }</span><strong>[${period.date}] ${period.class.subject} - ${
-            period.class.teacher
-          }</strong><span>${period.explanation}</span></div>`
-        );
-      });
+      $("#attendanceIssues").html(
+        attendanceData.attentionPeriods
+          .map(
+            (period) =>
+              `<div><span class="className">${period.code}</span><strong>[${period.date}] ${period.class.subject} - ${period.class.teacher}</strong><span>${period.explanation}</span></div>`
+          )
+          .join("")
+      );
+
       break;
   }
 }
@@ -208,10 +225,7 @@ function errorMessage(errTitle, errDesc) {
   try {
     user = (await $.get("/auth/me")).data;
 
-    noticeMessage(
-      `Welcome back, ${user.studentInfo.KnownAs}!`,
-      "You have been logged in."
-    );
+    noticeMessage(`Welcome back, ${user.name}!`, "You have been logged in.");
 
     await new Promise(connectToServer);
   } catch (err) {

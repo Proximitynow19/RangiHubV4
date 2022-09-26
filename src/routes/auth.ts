@@ -4,8 +4,6 @@ import passport from "passport";
 import { io } from "../index";
 import User from "../models/User";
 import sgMail from "@sendgrid/mail";
-import fs from "fs";
-import { join } from "path";
 
 sgMail.setApiKey(process.env.SENDGRID_KEY as string);
 
@@ -15,7 +13,7 @@ router.get("/me", (req, res) => {
   if (isAuthenticated)
     return res
       .status(200)
-      .json({ code: 200, data: req.user.u_dat, success: true });
+      .json({ code: 200, data: req.user.info, success: true });
 
   return res
     .status(401)
@@ -42,33 +40,30 @@ router.post("/login", function (req, res, next) {
       }
 
       let document = await User.findOne({
-        username: `${user.u_dat.studentInfo.StudentID}`,
+        username: `${user.info.id}`,
       });
 
       if (!document) {
         try {
           document = new User({
-            username: `${user.u_dat.studentInfo.StudentID}`,
+            username: `${user.info.id}`,
             joined_at: new Date(),
           });
 
           document.save();
 
           sgMail.send({
-            to: user.u_dat.studentInfo.Email,
+            to: user.info.email,
             from: "noreply@rangi.xyz",
-            subject: `Hello ${user.u_dat.studentInfo.KnownAs}, Welcome to RangiHub`,
-            html: fs
-              .readFileSync(join(__dirname, "../../welcome.html"), "utf8")
-              .replace(/%n/g, user.u_dat.studentInfo.KnownAs)
-              .replace(/%e/g, user.u_dat.studentInfo.Email),
+            templateId: "d-f98e0837b96946539211c42b945b2c2d",
+            dynamicTemplateData: { name: user.info.name },
           });
         } catch (err) {}
       }
 
       return res
         .status(200)
-        .json({ code: 200, data: user.u_dat, success: true });
+        .json({ code: 200, data: user.info, success: true });
     });
   })(req, res, next);
 });

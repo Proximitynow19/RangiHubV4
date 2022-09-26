@@ -1,9 +1,10 @@
 import { Router } from "express";
 import fetch from "node-fetch";
+import moment from "moment";
 
 const router = Router();
 
-router.get("/timetableSummary", async (req, res) => {
+router.get("/attendance", async (req, res) => {
   const isAuthenticated = !!req.user;
 
   if (!isAuthenticated)
@@ -24,7 +25,7 @@ router.get("/timetableSummary", async (req, res) => {
           },
           redirect: "manual",
           body: JSON.stringify({
-            studentID: req.user.u_dat.studentInfo.StudentID,
+            studentID: req.user.info.id,
             strFromDate: "",
             strToDate: "",
           }),
@@ -115,6 +116,104 @@ router.get("/timetableSummary", async (req, res) => {
       },
       success: true,
     });
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({
+      code: 500,
+      data: "Unexpected Error Occurred. Please Try Again Later.",
+      success: false,
+    });
+  }
+});
+
+router.get("/timetable", async (req, res) => {
+  const isAuthenticated = !!req.user;
+
+  if (!isAuthenticated)
+    return res
+      .status(401)
+      .json({ code: 401, data: "You are not logged in.", success: false });
+
+  try {
+    const timetableData = (
+      await (
+        await fetch(
+          "https://spider.rangitoto.school.nz/Spider/Handlers/Timetable.asmx/GetTimeTable_ByStudentMode",
+          {
+            method: "POST",
+            headers: {
+              Host: "spider.rangitoto.school.nz",
+              Cookie: req.user.cookie,
+              "Content-Type": "application/json",
+            },
+            redirect: "manual",
+            body: JSON.stringify({
+              StudentKey: req.user.info.key,
+              Date: moment().format("DD/MM/YYYY"),
+              Mode: "STT",
+            }),
+          }
+        )
+      ).json()
+    ).d;
+
+    const nextDay = timetableData.find((k: any) =>
+      moment(
+        `${k.Date.slice(0, -8)}${k.periodData
+          .at(-1)
+          .ToTime.replace(/\./g, ":")}`,
+        "DD/MM/YYYY hh:mm"
+      ).isAfter(moment())
+    );
+
+    return res.status(200).json({
+      code: 200,
+      data: {
+        nextDay,
+        expiry: moment(
+          `${nextDay.Date.slice(0, -8)}${nextDay.periodData
+            .at(-1)
+            .ToTime.replace(/\./g, ":")}`,
+          "DD/MM/YYYY hh:mm"
+        ).toISOString(),
+      },
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({
+      code: 500,
+      data: "Unexpected Error Occurred. Please Try Again Later.",
+      success: false,
+    });
+  }
+});
+
+router.get("/photo", async (req, res) => {
+  const isAuthenticated = !!req.user;
+
+  if (!isAuthenticated)
+    return res
+      .status(401)
+      .json({ code: 401, data: "You are not logged in.", success: false });
+
+  try {
+    const photoResponse = await fetch(
+      `https://spider.rangitoto.school.nz/Spider/Handlers/ImageHandler.ashx?imageHeight=200&arg=${encodeURIComponent(
+        req.user.info.image
+      )}`,
+      { headers: { cookie: req.user.cookie } }
+    );
+
+    var img = Buffer.from(await photoResponse.buffer());
+
+    res.writeHead(200, {
+      "Content-Type": "image/png",
+      "Content-Length": img.length,
+    });
+    res.end(img);
   } catch (err) {
     console.log(err);
 
