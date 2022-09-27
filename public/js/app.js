@@ -150,12 +150,17 @@ async function loadPageData() {
       break;
     case "home":
       const timetableData = (await $.get("/api/timetable")).data;
-      const nextDay = timetableData.nextDay;
-      const periods = timetableData.nextDay.periodData;
+
+      const nextDate = timetableData.nextDay.Date.slice(0, -8);
+
+      const periods = timetableData.nextDay.periodData.filter((k) =>
+        moment(
+          `${nextDate}${k.ToTime.replace(/\./g, ":")}`,
+          "DD/MM/YYYY hh:mm"
+        ).isAfter(moment())
+      );
 
       if (periods.length > 0) {
-        const nextDate = nextDay.Date.slice(0, -8);
-
         $("#upcoming").html(
           periods
             .map(
