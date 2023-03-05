@@ -2,10 +2,10 @@ import { Router } from "express";
 const router = Router();
 import passport from "passport";
 import { io } from "../index";
-import User from "../models/User";
-import sgMail from "@sendgrid/mail";
+// import User from "../models/User";
+// import sgMail from "@sendgrid/mail";
 
-sgMail.setApiKey(process.env.SENDGRID_KEY as string);
+// sgMail.setApiKey(process.env.SENDGRID_KEY as string);
 
 router.get("/me", (req, res) => {
   const isAuthenticated = !!req.user;
@@ -39,25 +39,25 @@ router.post("/login", function (req, res, next) {
         return res.status(500).json({ code: 500, data: err, success: false });
       }
 
-      if (
-        !(await User.exists({
-          username: user.info.id,
-        }))
-      ) {
-        try {
-          new User({
-            username: user.info.id,
-            joined_at: new Date(),
-          }).save();
+      // if (
+      //   !(await User.exists({
+      //     username: user.info.id,
+      //   }))
+      // ) {
+      //   try {
+      //     new User({
+      //       username: user.info.id,
+      //       joined_at: new Date(),
+      //     }).save();
 
-          sgMail.send({
-            to: user.info.email,
-            from: "noreply@rangi.xyz",
-            templateId: "d-f98e0837b96946539211c42b945b2c2d",
-            dynamicTemplateData: { name: user.info.name },
-          });
-        } catch (err) {}
-      }
+      //     sgMail.send({
+      //       to: user.info.email,
+      //       from: "noreply@rangi.xyz",
+      //       templateId: "d-f98e0837b96946539211c42b945b2c2d",
+      //       dynamicTemplateData: { name: user.info.name },
+      //     });
+      //   } catch (err) {}
+      // }
 
       return res
         .status(200)

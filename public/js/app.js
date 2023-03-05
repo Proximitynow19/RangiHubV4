@@ -153,11 +153,13 @@ async function loadPageData() {
 
       const nextDate = timetableData.nextDay.Date.slice(0, -8);
 
-      const periods = timetableData.nextDay.periodData.filter((k) =>
-        moment(
-          `${nextDate}${k.ToTime.replace(/\./g, ":")}`,
-          "DD/MM/YYYY hh:mm"
-        ).isAfter(moment())
+      const periods = timetableData.nextDay.periodData.filter(
+        (k) =>
+          k.teacherTimeTable &&
+          moment(
+            `${nextDate}${k.ToTime.replace(/\./g, ":")}`,
+            "DD/MM/YYYY hh:mm"
+          ).isAfter(moment())
       );
 
       if (periods.length > 0) {
